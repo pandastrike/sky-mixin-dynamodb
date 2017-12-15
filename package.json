@@ -1,0 +1,46 @@
+{
+  "name": "sky-mixin-dynamodb",
+  "version": "0.0.1",
+  "description": "Panda Sky mixin for the AWS service DynamoDB",
+  "main": "lib/index.js",
+  "files": [
+    "lib/",
+    "files/",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepare": "node_modules/.bin/coffee --compile --transpile --inline-map --output lib/ src/",
+    "postpublish": "(json -f package.json version | xargs -I version git tag -am version version) && git push --tags",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pandastrike/sky-mixin-dynamodb.git"
+  },
+  "keywords": [
+    "AWS",
+    "Panda",
+    "Sky",
+    "serverless"
+  ],
+  "author": "David Harper",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pandastrike/sky-mixin-dynamodb/issues"
+  },
+  "homepage": "https://github.com/pandastrike/sky-mixin-dynamodb#readme",
+  "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-preset-env": "1.6.1",
+    "coffeescript": "2.1.0",
+    "json": "^9.0.6"
+  },
+  "dependencies": {
+    "commander": "^2.12.2",
+    "fairmont": "2.0.1",
+    "panda-interview": "0.0.1",
+    "panda-serialize": "^0.2.0",
+    "panda-sky-mixin": "0.0.2",
+    "sundog": "0.0.2"
+  }
+}

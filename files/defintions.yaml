@@ -1,0 +1,68 @@
+name:
+  description: The name of the DynamoDB table or index.
+  type: string
+  minLength: 1
+  maxLength: 255
+
+keySchema:
+  description:
+    The declaration of primary keys in this table.
+  type: array
+  items:
+    type: object
+    additionalProperties: false
+    required: [name, type]
+    properties:
+      name:
+        type: string
+        minLength: 1
+        maxLength: 255
+      type:
+        type: string
+        enum: [RANGE, HASH]
+
+attributeDefinitions:
+  description:
+    The set of attribute definitions for keys in this table or index.
+  type: array
+  items:
+    type: object
+    additionalProperties: false
+    required: [name, type]
+    properties:
+      name:
+        type: string
+        minLength: 1
+        maxLength: 255
+      type:
+        type: string
+        enum: [S, N, B]
+
+provisionedThroughput:
+  description: >
+    The maximum amount of capacity that an application can consume from a table or index, defined in read and write "units".  If your application exceeds your provisioned throughput settings, it is subject to request throttling.
+  type: object
+  additionalProperties: false
+  required: [read, write]
+  properties:
+    read:
+      type: integer
+      minimum: 1
+    write:
+      type: integer
+      minimum: 1
+
+projection:
+  description: >
+    Attributes that are copied (projected) from the source table into the index. These attributes are in addition to the primary key attributes and index key attributes, which are automatically projected.
+  type: object
+  additionalProperties: false
+  required: [type]
+  properties:
+    type:
+      type: string
+      enum: [KEYS_ONLY, INCLUDE, ALL]
+    nonKeyAttributes:
+      type: array
+      items:
+        type: string

@@ -1,0 +1,69 @@
+{{#each tables}}
+MixinDynamoDBTable{{resourceTitle}}:
+  Type: "AWS::DynamoDB::Table"
+  DeletionPolicy: Retain
+  Properties:
+    TableName: {{name}}
+    KeySchema:
+    {{#each keySchema}}
+      - AttributeName: {{name}}
+        KeyType: {{type}}
+    {{/each}}
+    AttributeDefinitions:
+    {{#each attributeDefinitions}}
+      - AttributeName: {{name}}
+        AttributeType: {{type}}
+    {{/each}}
+    ProvisionedThroughput:
+      ReadCapacityUnits: {{provisionedThroughput.read}}
+      WriteCapacityUnits: {{provisionedThroughput.write}}
+
+    {{#with globalSecondaryIndex}}
+    GlobalSecondaryIndex:
+      {{#each globalSecondaryIndex}}
+      - IndexName: {{name}}
+        KeySchema:
+        {{#each keySchema}}
+          - AttributeName: {{name}}
+            KeyType: {{type}}
+        {{/each}}
+        Projection:
+        {{#with nonKeyAttributes}}
+          NonKeyAttributes:
+          {{#each nonKeyAttributes}}
+            - {{.}}
+          {{/each}}
+        {{/with}}
+          ProjectionType: {{projection.type}}
+        ProvisionedThroughput:
+          ReadCapacityUnits: {{provisionedThroughput.read}}
+          WriteCapacityUnits: {{provisionedThroughput.write}}
+      {{/each}}
+    {{/with}}
+
+    {{#with localSecondaryIndex}}
+    LocalSecondaryIndex:
+      {{#each localSecondaryIndex}}
+      - IndexName: {{name}}
+        KeySchema:
+        {{#each keySchema}}
+          - AttributeName: {{name}}
+            KeyType: {{type}}
+        {{/each}}
+        Projection:
+        {{#with nonKeyAttributes}}
+          NonKeyAttributes:
+          {{#each nonKeyAttributes}}
+            - {{.}}
+          {{/each}}
+        {{/with}}
+          ProjectionType: {{projection.type}}
+      {{/each}}
+    {{/with}}
+
+    Tags:
+    {{#each tags}}
+      - Key: {{Key}}
+        Value: {{Value}}
+    {{/each}}
+{{/each}}
