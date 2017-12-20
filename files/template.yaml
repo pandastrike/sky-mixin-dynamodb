@@ -3,5 +3,5 @@ MixinDynamoDBTable{{resourceTitle}}:
   Type: "AWS::DynamoDB::Table"
   DeletionPolicy: Retain
   Properties:
-    {{tableDescription}}
+    {{indent tableDescription "    "}}
 {{/each}}

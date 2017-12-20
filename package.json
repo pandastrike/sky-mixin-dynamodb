@@ -33,6 +33,7 @@
     "babel-core": "6.26.0",
     "babel-preset-env": "1.6.1",
     "coffeescript": "2.1.0",
+    "handlebars": "4.0.11",
     "json": "^9.0.6"
   },
   "dependencies": {
@@ -40,7 +41,7 @@
     "fairmont": "2.0.1",
     "panda-interview": "0.0.1",
     "panda-serialize": "^0.2.0",
-    "panda-sky-mixin": "0.0.2",
-    "sundog": "../sundog"
+    "panda-sky-mixin": "file:../panda-sky-mixin",
+    "sundog": "file:../sundog"
   }
 }
