@@ -5,7 +5,6 @@ import {yaml} from "panda-serialize"
 
 import preprocess from "./preprocessor"
 import cli from "./cli"
-import templateHelpers from "./template-helpers"
 
 mixin = do ->
   schema = yaml await read resolve __dirname, "..", "files", "schema.yaml"
@@ -18,7 +17,6 @@ mixin = do ->
     template
     preprocess
     cli
-    templateHelpers
   }
   DynamoDB
 
