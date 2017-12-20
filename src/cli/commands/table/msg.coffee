@@ -1,6 +1,6 @@
 Msg = do ->
   emptyDescription = (names) ->
-    msg = "WARNING: You are about to destroy all contents of the S3 bucket(s):\n"
+    msg = "WARNING: You are about to destroy all contents of the DynamoDB table(s):\n"
     msg += "\n  - #{n}" for n in names
     msg += "\n\nThis is a destructive operation and cannot be undone."
     msg += "\n\nPlease confirm that you wish to continue. [Y/N]"
@@ -13,7 +13,7 @@ Msg = do ->
 
 
   deleteDescription = (names) ->
-    msg = "WARNING: You are about to delete the S3 bucket(s):\n"
+    msg = "WARNING: You are about to delete the DynamoDB table(s):\n"
     msg += "\n  - #{n}" for n in names
     msg += "\n\nThis is a destructive operation and cannot be undone."
     msg += "\n\nPlease confirm that you wish to continue. [Y/N]"
@@ -24,24 +24,24 @@ Msg = do ->
     default: "N"
   ]
 
-  noBuckets = ->
+  noTables = ->
     console.error """
-      Your Sky configuration specifies no buckets for this environment.
+      Your Sky configuration specifies no tables for this environment.
 
       Done.
 
     """
     process.exit()
 
-  badBucket = (name) ->
+  badTable = (name) ->
     console.error """
-      The bucket #{name} is not specified within your Sky configuration for this environment.  Please add it before continuing.
+      The table #{name} is not specified within your Sky configuration for this environment.  Please add it before continuing.
 
       Done.
 
     """
     process.exit()
 
-  {emptyQuestion, deleteQuestion, noBuckets, badBucket}
+  {emptyQuestion, deleteQuestion, noTables, badTable}
 
-export default Msg
+export {Msg}

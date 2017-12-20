@@ -5,19 +5,18 @@ import COMMANDS from './commands'
 
 CLI = (AWS, config, argv) ->
   [name, env] = argv
-  mixinConfig = config.aws.environments[env].mixins.s3
+  mixinConfig = config.aws.environments[env].mixins.dynamodb
   program = new Command name
 
   program
-    .command "bucket [subcommand] [name]"
-    .option '-a, --all', 'Delete all buckets in your mixin list'
+    .command "table [subcommand] [name]"
     .allowUnknownOption()
     .action (subcommand, name, options) ->
-      bucket = await COMMANDS.bucket AWS, config, mixinConfig
-      if bucket[subcommand]
-        bucket[subcommand] name, options
+      table = await COMMANDS.table AWS, config, mixinConfig
+      if table[subcommand]
+        table[subcommand] name, options
       else
-        console.error "ERROR: unrecognized subcommand of 's3 bucket'"
+        console.error "ERROR: unrecognized subcommand of 'dynamodb table'"
         program.help()
 
   program

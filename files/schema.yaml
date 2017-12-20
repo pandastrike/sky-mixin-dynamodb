@@ -9,29 +9,19 @@ properties:
     items:
       type: object
       additionalProperties: false
-      required: [name, keySchema, attributeDefinitions, provisionedThroughput]
+      required: [name, keys, throughput]
       properties:
         name: {$ref: "#/definitions/name"}
-        keySchema: {$ref: "#/definitions/keySchema"}
-        attributeDefinitions: {$ref: "#/definitions/attributeDefinitions"}
-        provisionedThroughput: {$ref: "#/definitions/provisionedThroughput"}
-        globalSecondaryIndex:
-          type: object
-          additionalProperties: false
-          required: [name, keySchema, projection, provisionedThroughput]
-          properties:
-            name: {$ref: "#/definitions/name"}
-            keySchema: {$ref: "#/definitions/keySchema"}
-            projection: {$ref: "#/definitions/projection"}
-            provisionedThroughput: {$ref: "#/definitions/provisionedThroughput"}
-        localSecondaryIndex:
-          type: object
-          additionalProperties: false
-          required: [name, keySchema, projection]
-          properties:
-            name: {$ref: "#/definitions/name"}
-            keySchema: {$ref: "#/definitions/keySchema"}
-            projection: {$ref: "#/definitions/projection"}
+        keys: {$ref: "#/definitions/keys"}
+        throughput: {$ref: "#/definitions/throughput"}
+        globalIndex:
+          type: array
+          minItems: 1
+          items: {$ref: "#/definitions/globalSecondaryIndex"}
+        localIndex:
+          type: array
+          minItems: 1
+          items: {$ref: "#/definitions/localSecondaryIndex"}
 
 
   tags:

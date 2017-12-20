@@ -4,52 +4,40 @@ name:
   minLength: 1
   maxLength: 255
 
-keySchema:
+keys:
   description:
-    The declaration of primary keys in this table.
-  type: array
-  items:
-    type: object
-    additionalProperties: false
-    required: [name, type]
-    properties:
-      name:
-        type: string
-        minLength: 1
-        maxLength: 255
-      type:
-        type: string
-        enum: [RANGE, HASH]
-
-attributeDefinitions:
-  description:
-    The set of attribute definitions for keys in this table or index.
-  type: array
-  items:
-    type: object
-    additionalProperties: false
-    required: [name, type]
-    properties:
-      name:
-        type: string
-        minLength: 1
-        maxLength: 255
-      type:
-        type: string
-        enum: [S, N, B]
-
-provisionedThroughput:
-  description: >
-    The maximum amount of capacity that an application can consume from a table or index, defined in read and write "units".  If your application exceeds your provisioned throughput settings, it is subject to request throttling.
+    The declaration of primary keys in this table.  For this dictionary, the keys are the key names, and the values are tuples that describe the  key type and data type.
   type: object
-  additionalProperties: false
-  required: [read, write]
-  properties:
-    read:
-      type: integer
+  additionalProperties:
+    type: array
+    addtionalItems: false
+    minItems: 2
+    maxItems: 2
+    items:
+      - type: string
+        enum: [S, N, B]
+      - type: string
+        enum: [RANGE, HASH, range, hash, Range, Hash]
+
+indexKeys:
+  description:
+    The declaration of keys for this index.  For this dictionary, the keys are the key names, and the values are key type.
+  type: object
+  additionalProperties:
+    type: string
+    enum: [RANGE, HASH, range, hash, Range, Hash]
+
+throughput:
+  description: >
+    The maximum amount of capacity that an application can consume from a table or index. This is represented in the tuple as [read, write] "units".  If your application exceeds your provisioned throughput settings, it is subject to request throttling.
+  type: array
+  additionalItems: false
+  minItems: 2
+  maxItems: 2
+  items:
+    - type: integer
       minimum: 1
-    write:
-      type: integer
+    - type: integer
       minimum: 1
 
 projection:
@@ -66,3 +54,22 @@ projection:
       type: array
       items:
         type: string
+
+globalSecondaryIndex:
+  type: object
+  additionalProperties: false
+  required: [name, keySchema, projection, provisionedThroughput]
+  properties:
+    name: {$ref: "#/definitions/name"}
+    keys: {$ref: "#/definitions/indexKeys"}
+    projection: {$ref: "#/definitions/projection"}
+    throughput: {$ref: "#/definitions/throughput"}
+
+localSecondaryIndex:
+  type: object
+  additionalProperties: false
+  required: [name, keySchema, projection]
+  properties:
+    name: {$ref: "#/definitions/name"}
+    keys: {$ref: "#/definitions/indexKeys"}
+    projection: {$ref: "#/definitions/projection"}

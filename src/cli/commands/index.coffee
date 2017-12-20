@@ -1,7 +1,7 @@
 import help from "./help"
-import bucket from "./bucket"
+import table from "./table"
 
 export default {
   help
-  bucket
+  table
 }

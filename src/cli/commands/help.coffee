@@ -1,15 +1,15 @@
 module.exports = """
 
-  Usage: s3 [env] [command]
+  Usage: dynamodb [env] [command]
 
   Commands:
 
-    bucket [subcommand]     Manage your S3 mixin buckets
-      - add [name]              Creates the bucket if it does not exist
-      - empty [name]            Deletes all objects within the bucket
-      - delete [name]           Deletes the bucket if it exists
+    table [subcommand]     Manage your DynamoDB mixin tables
+      - add [name]              Creates the table if it does not exist
+      - empty [name]            Deletes all items within the table
+      - delete [name]           Deletes the table if it exists
 
     Options:
-      -a, --all     Effect all buckets within your S3 mixin configuration
+      -a, --all     Effect all tables within your DynamoDB mixin configuration
 
   """
