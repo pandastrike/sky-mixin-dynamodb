@@ -2,7 +2,8 @@ import Sundog from "sundog"
 import {empty, collect, project, where, clone, pick} from "fairmont"
 import Interview from "panda-interview"
 
-import {emptyQuestion, deleteQuestion, noTables, badTable} from "./msg"
+import MSG from "./msg"
+{emptyQuestion, deleteQuestion, noTables, badTable} = MSG
 import prerender from "../../../converter"
 
 _extractArgs = (table) ->
@@ -56,11 +57,11 @@ Table = (_AWS_, config, mixinConfig) ->
 
   ls = ->
     tables = validateOperation(null, {all: true})
-    console.log "Scanning AWS for mixin buckets...\n"
+    console.log "Scanning AWS for mixin tables...\n"
     names = collect project "TableName", tables
     for n in names
-      {Status} = await tableGet n
-      console.error "  - #{b} : #{Status || "Not Found"}"
+      {TableStatus} = await tableGet n
+      console.error "  - #{n} : #{TableStatus || "Not Found"}"
     console.error "\nDone.\n"
 
   _delete = (name, options) ->

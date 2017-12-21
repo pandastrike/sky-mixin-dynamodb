@@ -11,6 +11,7 @@ CLI = (AWS, config, argv) ->
   program
     .command "table [subcommand] [name]"
     .allowUnknownOption()
+    .option '-a, --all', 'Delete all buckets in your mixin list'
     .action (subcommand, name, options) ->
       table = await COMMANDS.table AWS, config, mixinConfig
       if table[subcommand]

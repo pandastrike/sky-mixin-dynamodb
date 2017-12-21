@@ -44,4 +44,4 @@ Msg = do ->
 
   {emptyQuestion, deleteQuestion, noTables, badTable}
 
-export {Msg}
+export default Msg
