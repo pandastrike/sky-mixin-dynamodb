@@ -40,7 +40,7 @@ Table = (_AWS_, config, mixinConfig) ->
     tables = validateOperation name, options
     console.error "Adding table(s)..."
     for t in tables
-      if await tableGet t.TableName
+      if !await tableGet t.TableName
         args = _extractArgs t
         options = _extractOptions t
         await tableCreate args..., options
