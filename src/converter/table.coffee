@@ -9,12 +9,13 @@ extractKeys = (out, dict) ->
   out.KeySchema = []
   out.AttributeDefinitions = []
   for key, a of dict
-    out.KeySchema.push
-      AttributeName: key
-      KeyType: a[1]
     out.AttributeDefinitions.push
       AttributeName: key
       AttributeType: a[0]
+    if a.length == 2
+      out.KeySchema.push
+        AttributeName: key
+        KeyType: a[1]
   out
 
 extractThroughput = (out, throughput) ->

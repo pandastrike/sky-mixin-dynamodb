@@ -11,7 +11,7 @@ keys:
   additionalProperties:
     type: array
     addtionalItems: false
-    minItems: 2
+    minItems: 1
     maxItems: 2
     items:
       - type: string
@@ -25,7 +25,7 @@ indexKeys:
   type: object
   additionalProperties:
     type: string
-    enum: [RANGE, HASH, range, hash, Range, Hash]
+    enum: [RANGE, HASH]
 
 throughput:
   description: >
@@ -58,7 +58,7 @@ projection:
 globalSecondaryIndex:
   type: object
   additionalProperties: false
-  required: [name, keySchema, projection, provisionedThroughput]
+  required: [name, keys, projection, throughput]
   properties:
     name: {$ref: "#/definitions/name"}
     keys: {$ref: "#/definitions/indexKeys"}
@@ -68,7 +68,7 @@ globalSecondaryIndex:
 localSecondaryIndex:
   type: object
   additionalProperties: false
-  required: [name, keySchema, projection]
+  required: [name, keys, projection]
   properties:
     name: {$ref: "#/definitions/name"}
     keys: {$ref: "#/definitions/indexKeys"}

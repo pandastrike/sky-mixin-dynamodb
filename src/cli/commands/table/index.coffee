@@ -1,25 +1,19 @@
 import Sundog from "sundog"
-import {empty, collect, project, where, clone, pick} from "fairmont"
+import {empty, collect, project, where} from "fairmont"
 import Interview from "panda-interview"
 
+import _update from "./update"
+import _create from "./create"
 import MSG from "./msg"
-{emptyQuestion, deleteQuestion, noTables, badTable} = MSG
 import prerender from "../../../converter"
-
-_extractArgs = (table) ->
-  {TableName, KeySchema, AttributeDefinitions, ProvisionedThroughput} = table
-  [TableName, KeySchema, AttributeDefinitions, ProvisionedThroughput]
-
-_extractOptions = (table) ->
-  defaults = ["TableName", "KeySchema", "AttributeDefinitions", "ProvisionedThroughput"]
-  f = (key, value) -> key in defaults
-  pick f, clone table
-
 
 Table = (_AWS_, config, mixinConfig) ->
   _tables = if mixinConfig then prerender mixinConfig else []
   {AWS: {DynamoDB}} = Sundog _AWS_
-  {tableGet, tableCreate, tableWaitForReady, tableEmpty, tableDel, tableWaitForDeleted} = DynamoDB
+  create = _create DynamoDB
+  update = _update DynamoDB
+  {tableGet, tableEmpty, tableDel, tableWaitForDeleted} = DynamoDB
+  {emptyQuestion, deleteQuestion, noTables, badTable} = MSG
 
   validateOperation = (name, options) ->
     tables = collect project "TableName", _tables
@@ -39,19 +33,14 @@ Table = (_AWS_, config, mixinConfig) ->
   add = (name, options) ->
     tables = validateOperation name, options
     console.error "Adding table(s)..."
-    for t in tables
-      if !await tableGet t.TableName
-        args = _extractArgs t
-        options = _extractOptions t
-        await tableCreate args..., options
-        await tableWaitForReady t.TableName
+    await create t for t in tables when !await tableGet t.TableName
     console.error "Done.\n"
 
-  _empty = (name, options) ->
+  Empty = (name, options) ->
     tables = validateOperation name, options
     names = collect project "TableName", tables
     await ask emptyQuestion names
-    console.error "Emptying bucket(s)..."
+    console.error "Emptying table(s)..."
     await tableEmpty n for n in names when await tableGet n
     console.error "\nDone.\n"
 
@@ -64,21 +53,28 @@ Table = (_AWS_, config, mixinConfig) ->
       console.error "  - #{n} : #{TableStatus || "Not Found"}"
     console.error "\nDone.\n"
 
-  _delete = (name, options) ->
+  Delete = (name, options) ->
     tables = validateOperation name, options
     names = collect project "TableName", tables
     await ask deleteQuestion names
-    console.error "Deleting bucket(s)..."
+    console.error "Deleting table(s)..."
     await tableDel n for n in names when await tableGet n
     await tableWaitForDeleted n for n in names
     console.error "\nDone.\n"
 
+  Update = (name, options) ->
+    tables = validateOperation name, options
+    console.error "Updating table(s)..."
+    await update tables
+    console.error "\nDone.\n"
+
   {
     add
-    empty: _empty
+    empty: Empty
     ls
     list: ls
-    delete: _delete
+    delete: Delete
+    update: Update
   }
 
 export default Table

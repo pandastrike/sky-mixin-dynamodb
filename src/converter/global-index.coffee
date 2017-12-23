@@ -32,7 +32,7 @@ extractIndex = ({name, keys, projection, throughput}) ->
   out
 
 GlobalIndex = (out, a) ->
-  out.GlobalSecondaryIndexes = extractIndex index for index in a
+  out.GlobalSecondaryIndexes = (extractIndex index for index in a)
   out
 
 export default GlobalIndex

@@ -31,7 +31,7 @@ extractIndex = ({name, keys, projection}) ->
   out
 
 LocalIndex = (out, a) ->
-  out.LocalSecondaryIndexes = extractIndex index for index in a
+  out.LocalSecondaryIndexes = (extractIndex index for index in a)
   out
 
 export default LocalIndex
