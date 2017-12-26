@@ -49,8 +49,17 @@ Table = (_AWS_, config, mixinConfig) ->
     console.log "Scanning AWS for mixin tables...\n"
     names = collect project "TableName", tables
     for n in names
-      {TableStatus} = await tableGet n
-      console.error "  - #{n} : #{TableStatus || "Not Found"}"
+      {TableStatus: status, GlobalSecondaryIndexes, ProvisionedThroughput: {ReadCapacityUnits: rCap, WriteCapacityUnits: wCap}} = await tableGet n
+
+      console.error "=".repeat 80
+      console.error "#{n} : #{status || "Not Found"}   #{rCap} - #{wCap}"
+      if GlobalSecondaryIndexes
+        console.error "-".repeat 80
+        console.error "  Global Indexes"
+        for index in GlobalSecondaryIndexes
+          {IndexName, IndexStatus, ProvisionedThroughput: {ReadCapacityUnits: rCap, WriteCapacityUnits: wCap}} = index
+          console.error "  - #{IndexName} : #{IndexStatus}   #{rCap} - #{wCap}"
+    console.error "=".repeat 80 if !empty tables
     console.error "\nDone.\n"
 
   Delete = (name, options) ->
