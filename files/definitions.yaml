@@ -4,9 +4,9 @@ name:
   minLength: 1
   maxLength: 255
 
-keys:
+attributes:
   description:
-    The declaration of primary keys in this table.  For this dictionary, the keys are the key names, and the values are tuples that describe the  key type and data type.
+    The declaration of all named attributes in the table, including a specification of the primary keys.  For this dictionary, the keys are the attribute names, and the values are tuples that describe the data type and, optionally, the key type. For index key attributes, their data type is declared here, but their key type is defined in the index declaration.
   type: object
   additionalProperties:
     type: array
@@ -42,7 +42,7 @@ throughput:
 
 projection:
   description: >
-    Attributes that are copied (projected) from the source table into the index. These attributes are in addition to the primary key attributes and index key attributes, which are automatically projected.
+    Attributes that are copied (projected) from the source table into the index. These attributes are in addition to the primary key attributes and index key attributes, which are automatically projected.  If you omit this field, Sky defaults to the projection ALL.
   type: object
   additionalProperties: false
   required: [type]
@@ -58,7 +58,7 @@ projection:
 globalSecondaryIndex:
   type: object
   additionalProperties: false
-  required: [name, keys, projection, throughput]
+  required: [name, keys, throughput]
   properties:
     name: {$ref: "#/definitions/name"}
     keys: {$ref: "#/definitions/indexKeys"}
@@ -68,7 +68,7 @@ globalSecondaryIndex:
 localSecondaryIndex:
   type: object
   additionalProperties: false
-  required: [name, keys, projection]
+  required: [name, keys]
   properties:
     name: {$ref: "#/definitions/name"}
     keys: {$ref: "#/definitions/indexKeys"}

@@ -3,6 +3,7 @@ import MIXIN from "panda-sky-mixin"
 import {read} from "fairmont"
 import {yaml} from "panda-serialize"
 
+import getPolicyStatements from "./policy"
 import preprocess from "./preprocessor"
 import cli from "./cli"
 
@@ -17,6 +18,7 @@ mixin = do ->
     template
     preprocess
     cli
+    getPolicyStatements
   }
   DynamoDB
 

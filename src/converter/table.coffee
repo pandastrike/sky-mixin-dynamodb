@@ -5,7 +5,7 @@ extractName = (out, name) ->
   out.TableName = name
   out
 
-extractKeys = (out, dict) ->
+extractAttributes = (out, dict) ->
   out.KeySchema = []
   out.AttributeDefinitions = []
   for key, a of dict
@@ -29,13 +29,13 @@ extractTags = (out, tags) ->
   out
 
 
-Table = ({name, keys, throughput, globalIndex, localIndex}, tags) ->
+Table = ({name, attributes, throughput, globalIndexes, localIndexes}, tags) ->
   out = {}
   out = extractName out, name
-  out = extractKeys out, keys
+  out = extractAttributes out, attributes
   out = extractThroughput out, throughput
-  out = extractGlobalIndexes out, globalIndex if globalIndex
-  out = extractLocalIndexes out, localIndex if localIndex
+  out = extractGlobalIndexes out, globalIndexes if globalIndexes
+  out = extractLocalIndexes out, localIndexes if localIndexes
   out = extractTags out, tags if tags
   out
 

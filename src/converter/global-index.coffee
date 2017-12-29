@@ -16,7 +16,8 @@ extractThroughput = (out, [read, write]) ->
     WriteCapacityUnits: write
   out
 
-extractProjection = (out, {type, nonKeyAttributes}) ->
+extractProjection = (out, proj) ->
+  if proj then {type, nonKeyAttributes} = proj else type = "ALL"
   out.Projection = ProjectionType: type
   if nonKeyAttributes
     out.Projection.NonKeyAttributes = nonKeyAttributes
@@ -31,8 +32,8 @@ extractIndex = ({name, keys, projection, throughput}) ->
   out = extractProjection out, projection
   out
 
-GlobalIndex = (out, a) ->
-  out.GlobalSecondaryIndexes = (extractIndex index for index in a)
+GlobalIndex = (out, ax) ->
+  out.GlobalSecondaryIndexes = (extractIndex index for index in ax)
   out
 
 export default GlobalIndex
