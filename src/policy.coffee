@@ -9,7 +9,10 @@ Policy = (config, global) ->
 
   {region} = global.aws
   names = collect project "name", config.tables
-  resources = ("arn:aws:dynamodb:#{region}:*:table/#{n}" for n in names)
+  resources = []
+  for n in names
+    resources.push "arn:aws:dynamodb:#{region}:*:table/#{n}"
+    resources.push "arn:aws:dynamodb:#{region}:*:table/#{n}/*"
 
   [
     Effect: "Allow"
