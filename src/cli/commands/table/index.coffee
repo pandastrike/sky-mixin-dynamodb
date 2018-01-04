@@ -49,10 +49,14 @@ Table = (_AWS_, config, mixinConfig) ->
     console.log "Scanning AWS for mixin tables...\n"
     names = collect project "TableName", tables
     for n in names
-      {TableStatus: status, GlobalSecondaryIndexes, ProvisionedThroughput: {ReadCapacityUnits: rCap, WriteCapacityUnits: wCap}} = await tableGet n
-
       console.error "=".repeat 80
-      console.error "#{n} : #{status || "Not Found"}   #{rCap} - #{wCap}"
+      table = await tableGet n
+      if !table
+        console.error "#{n} : NotFound"
+        continue
+
+      {TableStatus: status, GlobalSecondaryIndexes, ProvisionedThroughput: {ReadCapacityUnits: rCap, WriteCapacityUnits: wCap}} = table
+      console.error "#{n} : #{status}   #{rCap} - #{wCap}"
       if GlobalSecondaryIndexes
         console.error "-".repeat 80
         console.error "  Global Indexes"

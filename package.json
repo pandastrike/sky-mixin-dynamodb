@@ -1,6 +1,6 @@
 {
   "name": "sky-mixin-dynamodb",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Panda Sky mixin for the AWS service DynamoDB",
   "main": "lib/index.js",
   "files": [
