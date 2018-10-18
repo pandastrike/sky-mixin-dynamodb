@@ -5,3 +5,16 @@ MixinDynamoDBTable{{resourceTitle}}:
   Properties:
     {{indent 4 tableDescription}}
 {{/each}}
+
+{{#with vpc}}
+EndpointDynamoDB:
+    Type: "AWS::EC2::VPCEndpoint"
+    Properties:
+      VpcId:
+        Ref: VPC
+      RouteTableIds:
+        "Fn::Split": [ ",", {Ref: RouteTables} ]
+      ServiceName: com.amazonaws.{{region}}.dynamodb
+      VpcEndpointType: Gateway
+
+{{/with}}

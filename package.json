@@ -1,17 +1,15 @@
 {
   "name": "sky-mixin-dynamodb",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Panda Sky mixin for the AWS service DynamoDB",
-  "main": "lib/index.js",
+  "main": "build/npm/src/index.js",
   "files": [
     "lib/",
     "files/",
     "LICENSE"
   ],
   "scripts": {
-    "prepare": "node_modules/.bin/coffee --compile --transpile --inline-map --output lib/ src/",
-    "postpublish": "(json -f package.json version | xargs -I version git tag -am version version) && git push --tags",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp npm:test"
   },
   "repository": {
     "type": "git",
@@ -30,11 +28,14 @@
   },
   "homepage": "https://github.com/pandastrike/sky-mixin-dynamodb#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.1.0",
+    "amen": "^2.1.0",
     "babel-core": "6.26.0",
-    "babel-preset-env": "1.6.1",
-    "coffeescript": "2.1.0",
+    "coffeescript": "^2.3.2",
+    "gulp": "github:gulpjs/gulp#4.0",
     "handlebars": "4.0.11",
-    "json": "^9.0.6"
+    "json": "^9.0.6",
+    "panda-builder": "^2.4.0"
   },
   "dependencies": {
     "commander": "^2.12.2",

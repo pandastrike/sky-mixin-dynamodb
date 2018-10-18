@@ -8,9 +8,11 @@ import preprocess from "./preprocessor"
 import cli from "./cli"
 
 mixin = do ->
-  schema = yaml await read resolve __dirname, "..", "files", "schema.yaml"
-  schema.definitions = yaml await read resolve __dirname, "..", "files", "definitions.yaml"
-  template = await read resolve __dirname, "..", "files", "template.yaml"
+  root = (name) -> resolve __dirname, "..", "..", "..", "files", name
+
+  schema = yaml await read root "schema.yaml"
+  schema.definitions = yaml await read root "definitions.yaml"
+  template = await read root "template.yaml"
 
   DynamoDB = new MIXIN {
     name: "dynamodb"
