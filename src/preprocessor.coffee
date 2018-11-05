@@ -9,44 +9,38 @@ import warningMsg from "./warning-messages"
 import prerender from "./converter"
 
 process = (_AWS_, config) ->
-  {AWS: {DynamoDB: {tableGet}}} = Sundog _AWS_
+  {AWS: {DynamoDB}} = Sundog _AWS_
+  {tableGet} = DynamoDB()
+  {region, vpc} = config.aws
 
-  _exists = (name) ->
+  tableExists = (name) ->
     try
       await tableGet name
     catch e
       warningMsg e
       throw e
 
-  getTables = ->
-    # Start by extracting out the DynamoDB Mixin configuration:
-    {env, tags=[]} = config
-    c = config.aws.environments[env].mixins.dynamodb
-    c = if isObject c then c else {}
-    c.tags = cat (c.tags || []), tags
+  # Start by extracting out the DynamoDB Mixin configuration:
+  {env, tags=[]} = config
+  c = config.aws.environments[env].mixins.dynamodb
+  c = if isObject c then c else {}
+  c.tags = cat (c.tags || []), tags
 
-    # Scan for which tables don't exist and list them as needed.
-    {tables=[], tags} = c
-    needed = []
-    needed.push t for t in tables when !(await _exists t.name)
+  # Scan for which tables don't exist and list them as needed.
+  {tables=[], tags} = c
+  needed = []
+  needed.push t for t in tables when !(await tableExists t.name)
 
-    # Build out a tables config array for needed tables in CloudFormation template
-    tables = []
-    if !empty needed
-      descriptions = prerender {tables: needed, tags}
-      for d in descriptions
-        tables.push
-          resourceTitle: capitalize camelCase plainText d.TableName
-          tableDescription: yaml d
-    tables
+  # Build out a tables config array for needed tables in CloudFormation template
+  tables = []
+  if !empty needed
+    descriptions = prerender {tables: needed, tags}
+    for d in descriptions
+      tables.push
+        resourceTitle: capitalize camelCase plainText d.TableName
+        tableDescription: yaml d
 
-  getVPC = ->
-    vpc = {region: config.aws.region}
-
-  {
-    table: getTables()
-    vpc: getVPC()
-  }
+  {tables, region, vpc}
 
 
 export default process

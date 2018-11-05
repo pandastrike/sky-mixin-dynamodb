@@ -6,7 +6,8 @@ MixinDynamoDBTable{{resourceTitle}}:
     {{indent 4 tableDescription}}
 {{/each}}
 
-{{#with vpc}}
+{{#if vpc}}
+{{#if vpc.new}}
 EndpointDynamoDB:
     Type: "AWS::EC2::VPCEndpoint"
     Properties:
@@ -16,5 +17,5 @@ EndpointDynamoDB:
         "Fn::Split": [ ",", {Ref: RouteTables} ]
       ServiceName: com.amazonaws.{{region}}.dynamodb
       VpcEndpointType: Gateway
-
-{{/with}}
+{{/if}}
+{{/if}}

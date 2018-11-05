@@ -1,6 +1,6 @@
 {
   "name": "sky-mixin-dynamodb",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Panda Sky mixin for the AWS service DynamoDB",
   "main": "build/npm/src/index.js",
   "files": [
@@ -32,10 +32,10 @@
     "amen": "^2.1.0",
     "babel-core": "6.26.0",
     "coffeescript": "^2.3.2",
-    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp": "github:gulpjs/gulp#v4.0.0",
     "handlebars": "4.0.11",
     "json": "^9.0.6",
-    "panda-builder": "^2.4.0"
+    "panda-builder": "^2.4.1"
   },
   "dependencies": {
     "commander": "^2.12.2",
@@ -43,6 +43,6 @@
     "panda-interview": "0.0.1",
     "panda-serialize": "^0.2.0",
     "panda-sky-mixin": "0.0.3",
-    "sundog": "0.0.3"
+    "sundog": "^1.0.8"
   }
 }
