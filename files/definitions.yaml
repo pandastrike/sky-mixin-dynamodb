@@ -4,6 +4,16 @@ name:
   minLength: 1
   maxLength: 255
 
+preset:
+  description: >
+    The name of a preset offered by this mixin, a high-level specification of a DynamoDB table configuration, sparing you from repeating low-level instrctions.  If you set this field, all other configuration is overridden for this table.
+
+    graph: A table and GSI configuration supporting a model including vertices, edges, 1st order traversals, and conditional support for higher order traversals.
+
+  type: string
+  enum:
+    - graph
+
 attributes:
   description:
     The declaration of all named attributes in the table, including a specification of the primary keys.  For this dictionary, the keys are the attribute names, and the values are tuples that describe the data type and, optionally, the key type. For index key attributes, their data type is declared here, but their key type is defined in the index declaration.
@@ -29,16 +39,19 @@ indexKeys:
 
 throughput:
   description: >
-    The maximum amount of capacity that an application can consume from a table or index. This is represented in the tuple as [read, write] "units".  If your application exceeds your provisioned throughput settings, it is subject to request throttling.
-  type: array
-  additionalItems: false
-  minItems: 2
-  maxItems: 2
-  items:
-    - type: integer
-      minimum: 1
-    - type: integer
-      minimum: 1
+    The maximum amount of capacity that an application can consume from a table or index. For provisioned writes, this is represented in the tuple as [read, write] "units".  If your application exceeds your provisioned throughput settings, it is subject to request throttling. ON-DEMAND mode bills you per request. When in this mode, do not specify throughput on your GSIs.
+  anyOf:
+    - type: string
+      enum: [ ON-DEMAND ]
+    - type: array
+      additionalItems: false
+      minItems: 2
+      maxItems: 2
+      items:
+        - type: integer
+          minimum: 1
+        - type: integer
+          minimum: 1
 
 projection:
   description: >
@@ -58,7 +71,7 @@ projection:
 globalSecondaryIndex:
   type: object
   additionalProperties: false
-  required: [name, keys, throughput]
+  required: [name, keys]
   properties:
     name: {$ref: "#/definitions/name"}
     keys: {$ref: "#/definitions/indexKeys"}

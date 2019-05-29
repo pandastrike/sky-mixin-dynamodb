@@ -3,22 +3,15 @@
 
 import Sundog from "sundog"
 import {yaml} from "panda-serialize"
-import {cat, isObject, plainText, camelCase, capitalize, empty} from "fairmont"
+import {cat, isObject, plainText, camelCase, capitalize,
+  empty} from "panda-parchment"
 
-import warningMsg from "./warning-messages"
 import prerender from "./converter"
 
 process = (_AWS_, config) ->
   {AWS: {DynamoDB}} = Sundog _AWS_
   {tableGet} = DynamoDB()
   {region, vpc} = config.aws
-
-  tableExists = (name) ->
-    try
-      await tableGet name
-    catch e
-      warningMsg e
-      throw e
 
   # Start by extracting out the DynamoDB Mixin configuration:
   {env, tags=[]} = config
@@ -29,12 +22,12 @@ process = (_AWS_, config) ->
   # Scan for which tables don't exist and list them as needed.
   {tables=[], tags} = c
   needed = []
-  needed.push t for t in tables when !(await tableExists t.name)
+  needed.push t for t in tables when !(await tableGet t.name)
 
   # Build out a tables config array for needed tables in CloudFormation template
   tables = []
   if !empty needed
-    descriptions = prerender {tables: needed, tags}
+    descriptions = await prerender {tables: needed, tags}
     for d in descriptions
       tables.push
         resourceTitle: capitalize camelCase plainText d.TableName

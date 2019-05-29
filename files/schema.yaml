@@ -1,6 +1,11 @@
 type: object
 additionalProperties: false
 properties:
+  access:
+    description: >
+      List of tables that you want read and write access to.
+    type: array
+    minItems: 1
   tables:
     description: >
       List of the tables required by your Sky deployment.  These are created if they do not already exist.  Tables are created with the DeletionPolicy, Retain.  So, when your deployment is deleted by Sky, that operation is non-destructive to your data.
@@ -9,9 +14,10 @@ properties:
     items:
       type: object
       additionalProperties: false
-      required: [name, attributes, throughput]
+      required: [name]
       properties:
         name: {$ref: "#/definitions/name"}
+        preset: {$ref: "#/definitions/preset"}
         attributes: {$ref: "#/definitions/attributes"}
         throughput: {$ref: "#/definitions/throughput"}
         globalIndexes:

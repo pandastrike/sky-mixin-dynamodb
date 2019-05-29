@@ -1,6 +1,6 @@
 # This helper module parses the desired and current ProvisionedThroughput on the
 # whole table (or its indexes) and returns changes if an update is needed.
-import {deepEqual} from "fairmont"
+import {equal} from "panda-parchment"
 
 getThroughputChanges = (currentTable, desiredTable) ->
   current = [
@@ -12,7 +12,7 @@ getThroughputChanges = (currentTable, desiredTable) ->
     desiredTable.ProvisionedThroughput.WriteCapacityUnits
   ]
 
-  if deepEqual current, desired
+  if equal current, desired
     false
   else
     throughput: desiredTable.ProvisionedThroughput

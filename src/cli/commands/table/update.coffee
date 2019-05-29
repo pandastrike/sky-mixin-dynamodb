@@ -1,5 +1,6 @@
 # This module handles the complexities involved when updating the configuration of a DynamoDB table. The AWS API prohibits simulatenous changes some combinations of table configuration.  Go through the cases and recursively complete an upsert.
-import {curry, merge, empty, keys, values, first, pick} from "fairmont"
+import {curry} from "panda-garden"
+import {merge, empty, keys, values, first, pick} from "panda-parchment"
 import _create from "./create"
 import getIndexChanges from "./changes/global-index"
 import getThroughputChanges from "./changes/throughput"

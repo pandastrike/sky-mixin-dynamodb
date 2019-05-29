@@ -19,9 +19,13 @@ extractAttributes = (out, dict) ->
   out
 
 extractThroughput = (out, throughput) ->
-  out.ProvisionedThroughput =
-    ReadCapacityUnits: throughput[0]
-    WriteCapacityUnits: throughput[1]
+  if !throughput? || throughput == "ON-DEMAND"
+    out.BillingMode = "PAY_PER_REQUEST"
+  else
+    out.BillingMode = "PROVISIONED"
+    out.ProvisionedThroughput =
+      ReadCapacityUnits: throughput[0]
+      WriteCapacityUnits: throughput[1]
   out
 
 extractTags = (out, tags) ->

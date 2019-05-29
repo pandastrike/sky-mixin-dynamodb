@@ -2,7 +2,8 @@
 # 1) Break full specification into something SunDog can consume
 # 2) Create the table
 # 3) Wait until we get back "Ready" for the Table's status.
-import {curry, clone, pick} from "fairmont"
+import {curry} from "panda-garden"
+import {clone, pick} from "panda-parchment"
 
 create = curry (DynamoDB, table) ->
   {tableCreate, tableWaitForReady} = DynamoDB

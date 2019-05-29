@@ -28,7 +28,7 @@ extractIndex = ({name, keys, projection, throughput}) ->
   out = {}
   out = extractName out, name
   out = extractKeys out, keys
-  out = extractThroughput out, throughput
+  out = extractThroughput out, throughput if throughput?
   out = extractProjection out, projection
   out
 

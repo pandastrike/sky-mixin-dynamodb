@@ -1,5 +1,8 @@
 # This helper module takes the current and desired global secondary indexes and calculates a set of updates to get from the former to the latter.
-import {empty, collect, project, intersection, complement, curry, where} from "fairmont"
+import {curry} from "panda-garden"
+import {empty, intersection, complement} from "panda-parchment"
+import {collect, project} from "panda-river"
+import {where} from "../../private-utils"
 import getThroughputChanges from "./throughput"
 
 addCreate = (index) ->

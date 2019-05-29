@@ -1,6 +1,8 @@
 import Sundog from "sundog"
-import {empty, collect, project, where} from "fairmont"
+import {empty} from "panda-parchment"
+import {collect, project} from "panda-river"
 import Interview from "panda-interview"
+import {where} from "../private-utils"
 
 import _update from "./update"
 import _create from "./create"
@@ -8,11 +10,11 @@ import MSG from "./msg"
 import prerender from "../../../converter"
 
 Table = (_AWS_, config, mixinConfig) ->
-  _tables = if mixinConfig then prerender mixinConfig else []
+  _tables = if mixinConfig then await prerender mixinConfig else []
   {AWS: {DynamoDB}} = Sundog _AWS_
-  create = _create DynamoDB
-  update = _update DynamoDB
-  {tableGet, tableEmpty, tableDel, tableWaitForDeleted} = DynamoDB
+  create = _create DynamoDB()
+  update = _update DynamoDB()
+  {tableGet, tableEmpty, tableDel, tableWaitForDeleted} = DynamoDB()
   {emptyQuestion, deleteQuestion, noTables, badTable} = MSG
 
   validateOperation = (name, options) ->
