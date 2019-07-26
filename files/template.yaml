@@ -1,21 +1,35 @@
-{{#each tables}}
-MixinDynamoDBTable{{resourceTitle}}:
-  Type: "AWS::DynamoDB::Table"
-  DeletionPolicy: Retain
-  Properties:
-    {{indent 4 tableDescription}}
-{{/each}}
-
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Panda Sky Mixin - DynamoDB
 {{#if vpc}}
-{{#if vpc.new}}
-EndpointDynamoDB:
-    Type: "AWS::EC2::VPCEndpoint"
+Parameters:
+  VPC:
+    Type: String
+  Subnets:
+    Type: String
+  AvailabilityZones:
+    Type: String
+  SecurityGroups:
+    Type: String
+  RouteTables:
+    Type: String
+{{/if}}
+
+Resources:
+
+  {{#each tables}}
+  MixinDynamoDBTable{{resourceTitle}}:
+    Type: "AWS::DynamoDB::Table"
+    DeletionPolicy: Retain
     Properties:
-      VpcId:
-        Ref: VPC
-      RouteTableIds:
-        "Fn::Split": [ ",", {Ref: RouteTables} ]
-      ServiceName: com.amazonaws.{{region}}.dynamodb
-      VpcEndpointType: Gateway
-{{/if}}
-{{/if}}
+      {{indent 4 tableDescription}}
+  {{/each}}
+
+  {{#if vpc}}
+  EndpointDynamoDB:
+      Type: "AWS::EC2::VPCEndpoint"
+      Properties:
+        VpcId: !Ref VPC
+        RouteTableIds: !Split [ ",", !Ref RouteTables ]
+        ServiceName: com.amazonaws.{{region}}.dynamodb
+        VpcEndpointType: Gateway
+  {{/if}}

@@ -1,17 +1,11 @@
-# Panda Sky Mixin: DynamoDB Policy
-# This mixin grants the API Lambdas access to the specified DynamoDB tables.  That IAM Role permission is rolled into your CloudFormation stack after being generated here.
-
 import {cat} from "panda-parchment"
 import {collect, project} from "panda-river"
 
-Policy = (config, global) ->
-  # Grant total access to the tables listed in this mixin.
-  # TODO: Consider limiting the actions on those tables and/or how to specify limitations within the mixin configuration.
-
-  {region} = global.aws
+Policy = (global, local) ->
+  {region} = global
   names = cat(
-    collect project "name", (config.tables ? []) 
-    config.access ? []
+    collect project "name", (local.tables ? [])
+    local.access ? []
   )
 
   resources = []

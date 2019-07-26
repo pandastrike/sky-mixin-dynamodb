@@ -9,9 +9,9 @@ import _create from "./create"
 import MSG from "./msg"
 import prerender from "../../../converter"
 
-Table = (_AWS_, config, mixinConfig) ->
-  _tables = if mixinConfig then await prerender mixinConfig else []
-  {AWS: {DynamoDB}} = Sundog _AWS_
+Table = (SDK, global, local) ->
+  _tables = if local then await prerender local else []
+  DynamoDB = Sundog(SDK).AWS
   create = _create DynamoDB()
   update = _update DynamoDB()
   {tableGet, tableEmpty, tableDel, tableWaitForDeleted} = DynamoDB()
