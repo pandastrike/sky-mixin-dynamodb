@@ -41,6 +41,6 @@
     "panda-river": "^4.4.2",
     "panda-serialize": "^0.4.0",
     "panda-template": "^1.1.0",
-    "sundog": "^4.0.0"
+    "sundog": "^5.0.0"
   }
 }
