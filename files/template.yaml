@@ -21,7 +21,7 @@ Resources:
     Type: "AWS::DynamoDB::Table"
     DeletionPolicy: Retain
     Properties:
-      {{indent 4 tableDescription}}
+      {{indent 6 tableDescription}}
   {{/each}}
 
   {{#if vpc}}
