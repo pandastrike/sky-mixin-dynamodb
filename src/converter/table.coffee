@@ -1,6 +1,8 @@
 import extractGlobalIndexes from "./global-index"
 import extractLocalIndexes from "./local-index"
 
+# TODO: Rewrite everything with flows!
+
 extractName = (out, name) ->
   out.TableName = name
   out
@@ -32,8 +34,15 @@ extractTags = (out, tags) ->
   out.Tags = tags if tags
   out
 
+extractTTL = (out, ttl) ->
+  out.TimeToLiveSpecification =
+     AttributeName: ttl
+     Enabled: true
+  out
 
-Table = ({name, attributes, throughput, globalIndexes, localIndexes}, tags) ->
+
+Table = (config, tags) ->
+  {name, ttl, attributes, throughput, globalIndexes, localIndexes} = config
   out = {}
   out = extractName out, name
   out = extractAttributes out, attributes
@@ -41,6 +50,7 @@ Table = ({name, attributes, throughput, globalIndexes, localIndexes}, tags) ->
   out = extractGlobalIndexes out, globalIndexes if globalIndexes
   out = extractLocalIndexes out, localIndexes if localIndexes
   out = extractTags out, tags if tags
+  out = extractTTL out, ttl if ttl
   out
 
 export default Table

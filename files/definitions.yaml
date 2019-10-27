@@ -14,6 +14,20 @@ preset:
   enum:
     - graph
 
+ttl:
+  description: >
+    The time to live specification for this table, set by naming a field that DynamoDB will check within each item.
+
+    The field *must be a Number type* and formmated in Epoch Time, *seconds* since Jan 1st, 1970 UTC. When the current time is greater than the value in this field, the item is scheduled for automated deletion.
+
+    Note that the items are *eventually* deleted, so take care if you need strict TTL. (see below)
+
+    Note from AWS:
+      DynamoDB typically deletes expired items within 48 hours of expiration. The exact duration within which an item truly gets deleted after expiration is specific to the nature of the workload and the size of the table. Items that have expired and have not been deleted still appear in reads, queries, and scans.
+
+  type: string
+
+
 attributes:
   description:
     The declaration of all named attributes in the table, including a specification of the primary keys.  For this dictionary, the keys are the attribute names, and the values are tuples that describe the data type and, optionally, the key type. For index key attributes, their data type is declared here, but their key type is defined in the index declaration.

@@ -10,9 +10,9 @@ read = (name) ->
 
 
 expandPreset = (table) ->
-  {name, preset} = table
+  {name, ttl, preset} = table
   if preset?
-    merge {name}, await read preset
+    merge {name, ttl}, await read preset
   else
     table
 

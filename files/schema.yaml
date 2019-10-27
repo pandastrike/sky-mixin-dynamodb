@@ -20,6 +20,7 @@ properties:
         preset: {$ref: "#/definitions/preset"}
         attributes: {$ref: "#/definitions/attributes"}
         throughput: {$ref: "#/definitions/throughput"}
+        ttl: {$ref: "#/definitions/ttl"}
         globalIndexes:
           type: array
           minItems: 1
