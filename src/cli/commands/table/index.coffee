@@ -11,7 +11,7 @@ import prerender from "../../../converter"
 
 Table = (SDK, global, local) ->
   _tables = if local then await prerender local else []
-  {DynamoDB} = Sundog SDK.config
+  {DynamoDB} = (Sundog SDK).AWS
   create = _create DynamoDB()
   update = _update DynamoDB()
   {tableGet, tableEmpty, tableDel, tableWaitForDeleted} = DynamoDB()

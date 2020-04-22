@@ -5,7 +5,7 @@ import {plainText, camelCase, capitalize, isEmpty} from "panda-parchment"
 import prerender from "./converter"
 
 preprocess = (SDK, global, meta, local) ->
-  {tableGet} = (Sundog SDK.config).DynamoDB()
+  {tableGet} = (Sundog SDK).AWS.DynamoDB()
   {region} = global
   {vpc} = meta
 

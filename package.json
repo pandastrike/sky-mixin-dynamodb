@@ -1,6 +1,6 @@
 {
   "name": "sky-mixin-dynamodb",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Panda Sky mixin for the AWS service DynamoDB",
   "main": "build/npm/src/index.js",
   "files": [
@@ -41,6 +41,6 @@
     "panda-river": "^6.0.0",
     "panda-serialize": "^1.0.0",
     "panda-template": "^2.0.0",
-    "sundog": "^6.0.0"
+    "sundog": "^5.0.0"
   }
 }
