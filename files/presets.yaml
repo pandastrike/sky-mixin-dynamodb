@@ -1,29 +1,29 @@
 graph:
   throughput: ON-DEMAND
   attributes:
-    vertexID: [S, HASH]
-    typeTarget: [S, RANGE]
+    origin: [S, HASH]
+    target: [S]
     typeOrigin: [S]
-    targetID: [S]
+    typeTarget: [S, RANGE]
     created: [S]
   globalIndexes:
-    - name: OutEdges
+    - name: InEdgesByValue
+      keys:
+        target: HASH
+        typeOrigin: RANGE
+      projection:
+        type: INCLUDE
+        nonKeyAttributes: [created, stash]
+    - name: OutEdgesByTime
       keys:
         typeOrigin: HASH
         created: RANGE
       projection:
         type: INCLUDE
         nonKeyAttributes: [target, stash]
-    - name: InEdges
+    - name: InEdgesByTime
       keys:
         typeTarget: HASH
-        created: RANGE
-      projection:
-        type: INCLUDE
-        nonKeyAttributes: [origin, stash]
-    - name: InvertedEdges
-      keys:
-        targetID: HASH
         created: RANGE
       projection:
         type: INCLUDE
